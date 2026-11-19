@@ -1,0 +1,43 @@
+## Desk Spider Handoff
+
+**Project Location:** C:\Users\karlg\Desktop\temp build folder\desktop-sp\
+**Last Updated:** 2026-11-17
+
+### Project Status
+- ✅ All 6 Python modules verified and import successfully
+- ✅ 7 surgical fixes applied to resolve runtime errors
+- ✅ Smoke test passed (exit code 0)
+- ✅ build.bat compiled and ready for PyInstaller
+- ⚠️ GUI visibility depends on Windows display configuration
+
+### Files & Their Purposes
+
+| File | Purpose |
+|------|---------|
+| `main.py` | Entry point with update loop, tray icon, fullscreen detection |
+| `overlay.py` | Transparent click-through frameless window |
+| `spider_engine.py` | 8-legged spider with IK gait, AI, bug system |
+| `nest_ui.py` | Companion UI: name, personality, calendar, bugs, totems, album |
+| `storage.py` | Local data: save_data.json + ./data/album/ |
+| `requirements.txt` | Dependencies |
+| `build.bat` | PyInstaller compile script |
+
+### Fixes Applied (7 total)
+1. `storage.py`: JSON serialization fix (`_make_serializable`)
+2. `main.py`: Removed `qApp.quit()`, fixed `isSystemAvailable`
+3. `spider_engine.py`: Added `_screen_w`/`_screen_h` init
+4. `nest_ui.py`: Album strip rebuilt in `refresh()` by globbing `storage.get_album_dir()` (the old `_load_album_paths()` / `_populate_ui()` helpers do not exist)
+5. `overlay.py`: `drawRoundedRect` → `int()` conversion
+6. `overlay.py`: `drawEllipse` → `int()` conversion
+7. `overlay.py`: `QRect.position()` → `QRect.topLeft()`
+
+### How to Run
+- `python main.py` — launches on primary monitor
+- `build.bat` → `DeskSpider.exe` — standalone executable
+
+### Session Handoff
+All modules verified, smoke test passed, ready for continued work or deployment.
+
+**Current work status and remaining tasks:** see `BACKLOG.md` (the source of
+truth). Run both suites before calling anything done:
+`python tests\smoke_qt.py` and `python tests\smoke_engine.py`.
